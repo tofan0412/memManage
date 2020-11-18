@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
 
+</script>
 
 <div class="content-wrapper" style="min-height: 584px;">
 	<!-- Content Header (Page header) -->
@@ -24,8 +26,7 @@
 	<section class="content">
 		<div class="card">
 			<div class="card-header with-border">
-				<button type="button" class="btn btn-primary"
-					onclick="OpenWindow(&#39;registForm.do&#39;,&#39;회원등록&#39;,800,700);">회원등록</button>
+				<button type="button" class="btn btn-primary" id="memberRegist">회원등록</button>
 				<div id="keyword" class="card-tools" style="width: 550px;">
 					<div class="input-group row">
 						<!-- sort num -->
@@ -36,6 +37,8 @@
 							<option value="5">5개씩</option>
 							<option value="7">7개씩</option>
 						</select>
+						
+						
 						<!-- search bar -->
 						<select class="form-control col-md-3" name="searchType"
 							id="searchType">
@@ -48,10 +51,12 @@
 							class="input-group-append">
 							<button class="btn btn-primary" type="button" id="searchBtn"
 								data-card-widget="search" onclick="searchList_go(1);">
-								<i class="fa fa-fw fa-search"></i>
+								<i id="searchBtn" class="fa fa-fw fa-search"></i>
 							</button>
 						</span>
 						<!-- end : search bar -->
+						
+						
 					</div>
 				</div>
 			</div>
@@ -89,15 +94,50 @@
 			<div class="card-footer">
 				<nav aria-label="member list Navigation">
 					<ul class="pagination justify-content-center m-0">
-						<li class="page-item"><a class="page-link" href="#"><i
-								class="fas fa-angle-double-left"></i></a></li>
-						<li class="page-item"><a class="page-link" href="#"><i
-								class="fas fa-angle-left"></i></a></li>
-						<li class="page-item active"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#"><i
-								class="fas fa-angle-right"></i></a></li>
-						<li class="page-item"><a class="page-link" href="#"><i
-								class="fas fa-angle-double-right"></i></a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">
+								<i class="fas fa-angle-double-left"></i>
+							</a>
+						</li>
+						<!-- left Btn. Hide when current page is 1 -->
+						<c:if test="${1 != page }">
+							<li class="page-item">
+								<a class="page-link" href="#" onclick="memberList(${page-1},${pageSize } )">
+									<i class="fas fa-angle-left"></i>
+								</a>
+							</li>
+						</c:if>
+						
+						<!-- pageNum Btn. -->
+						<c:forEach var="i" begin="1" end="${page_cnt}">
+							<c:choose>
+								<c:when test="${i == page }">
+									<li class="page-item active">
+										<a class="page-link" href="#">${i }</a>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item">
+										<a class="page-link" href="#" onclick="memberList(${i},${pageSize } )">${i }</a>
+									</li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+						<!-- right Btn. Hide when current page is last Page -->
+						<c:if test="${page != page_cnt }">
+							<li class="page-item">
+								<a class="page-link" href="#" onclick="memberList(${page+1},${pageSize } )">
+									<i class="fas fa-angle-right"></i>
+								</a>
+							</li>
+						</c:if>
+						
+						<li class="page-item">
+						<a class="page-link" href="#">
+						<i class="fas fa-angle-double-right"></i>
+						</a>
+						</li>
 					</ul>
 				</nav>
 

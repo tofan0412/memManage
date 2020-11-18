@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import member.manage.model.MemberVo;
+import member.manage.model.PageVo;
 import member.manage.repository.MemberManageDaoI;
 
 @Service("memberService")
@@ -22,8 +23,13 @@ public class MemberManageService implements MemberManageServiceI{
 	}
 
 	@Override
-	public List<MemberVo> memberList() {
-		return memberDao.memberList();
+	public List<MemberVo> memberList(PageVo pageVo) {
+		return memberDao.memberList(pageVo);
+	}
+
+	@Override
+	public List<MemberVo> memberListAll() {
+		return memberDao.memberListAll();
 	}
 
 }

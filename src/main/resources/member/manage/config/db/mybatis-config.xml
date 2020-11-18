@@ -6,6 +6,7 @@
 
   <typeAliases>
   	<typeAlias type="member.manage.model.MemberVo" alias="MemberVo"/>
+  	<typeAlias type="member.manage.model.PageVo" alias="PageVo"/>
   </typeAliases>
 
   <mappers>

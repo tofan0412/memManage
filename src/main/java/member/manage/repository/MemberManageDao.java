@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import member.manage.model.MemberVo;
+import member.manage.model.PageVo;
 
 @Repository("memberDao")
 public class MemberManageDao implements MemberManageDaoI {
@@ -22,8 +23,13 @@ public class MemberManageDao implements MemberManageDaoI {
 	}
 
 	@Override
-	public List<MemberVo> memberList() {
-		return sqlSession.selectList("member.memberList");
+	public List<MemberVo> memberList(PageVo pageVo) {
+		return sqlSession.selectList("member.memberList", pageVo);
+	}
+
+	@Override
+	public List<MemberVo> memberListAll() {
+		return sqlSession.selectList("member.memberListAll");
 	}
 
 }
