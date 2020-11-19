@@ -10,6 +10,12 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 	</context:component-scan>
 	
-	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:member/manage/config/msg/error</value>
+			</list>
+		</property>
+	</bean>
 	
 </beans>

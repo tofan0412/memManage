@@ -31,5 +31,40 @@ public class MemberManageDao implements MemberManageDaoI {
 	public List<MemberVo> memberListAll() {
 		return sqlSession.selectList("member.memberListAll");
 	}
+	// ----------------------검색 세션---------------------------
+	@Override
+	public List<MemberVo> searchById(String keyword) {
+		return sqlSession.selectList("member.searchById", keyword);
+	}
 
+	@Override
+	public List<MemberVo> searchByAlias(String keyword) {
+		return sqlSession.selectList("member.searchByNickname", keyword);
+	}
+
+	@Override
+	public List<MemberVo> searchByName(String keyword) {
+		return sqlSession.selectList("member.searchByName", keyword);
+	}
+	// ----------------------검색 세션 끝---------------------------
+
+	@Override
+	public int memberRegist(MemberVo memberVo) {
+		return sqlSession.insert("member.memberRegist", memberVo);
+	}
+
+	@Override
+	public MemberVo memberInfo(String userid) {
+		return sqlSession.selectOne("member.memberInfo", userid);
+	}
+
+	@Override
+	public int memberUpdate(MemberVo memberVo) {
+		return sqlSession.update("member.memberUpdate", memberVo);
+	}
+
+	@Override
+	public int memberDelete(String userid) {
+		return sqlSession.delete("member.memberDelete", userid);
+	}
 }

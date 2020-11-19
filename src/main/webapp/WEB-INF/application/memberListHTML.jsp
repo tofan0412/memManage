@@ -46,17 +46,14 @@
 							<option value="i">아이디</option>
 							<option value="n">이름</option>
 							<option value="a">별명</option>
-						</select> <input class="form-control" type="text" name="keyword"
-							placeholder="검색어를 입력하세요." value=""> <span
-							class="input-group-append">
-							<button class="btn btn-primary" type="button" id="searchBtn"
-								data-card-widget="search" onclick="searchList_go(1);">
-								<i id="searchBtn" class="fa fa-fw fa-search"></i>
-							</button>
+						</select> 
+						<input id="searchKeyword" class="form-control" type="text" name="keyword" placeholder="검색어를 입력하세요." value=""> 
+						<span class="input-group-append">
+						<button id="searchBtn" class="btn btn-primary" type="button" data-card-widget="search">
+							<i class="fa fa-fw fa-search"></i>
+						</button>
 						</span>
 						<!-- end : search bar -->
-						
-						
 					</div>
 				</div>
 			</div>
@@ -76,7 +73,7 @@
 
 								<c:forEach items="${memberList }" var="member">
 									<tr>
-										<td>${member.userid }</td>
+										<td id="userInfoBtn" data-userid="${member.userid }">${member.userid }</td>
 										<td>${member.pass }</td>
 										<td>${member.usernm }</td>
 										<td>${member.addr1 }</td>
@@ -94,11 +91,14 @@
 			<div class="card-footer">
 				<nav aria-label="member list Navigation">
 					<ul class="pagination justify-content-center m-0">
+						
+						<!-- Double-left Btn. Move to first Page -->
 						<li class="page-item">
-							<a class="page-link" href="#">
+							<a class="page-link" href="#" onclick="memberList(${1}, ${pageSize })">
 								<i class="fas fa-angle-double-left"></i>
 							</a>
 						</li>
+						
 						<!-- left Btn. Hide when current page is 1 -->
 						<c:if test="${1 != page }">
 							<li class="page-item">
@@ -133,8 +133,9 @@
 							</li>
 						</c:if>
 						
+						<!-- Double-right Btn. Move to last Page -->						
 						<li class="page-item">
-						<a class="page-link" href="#">
+						<a class="page-link" href="#" onclick="memberList(${page_cnt}, ${pageSize })">
 						<i class="fas fa-angle-double-right"></i>
 						</a>
 						</li>

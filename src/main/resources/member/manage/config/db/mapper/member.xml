@@ -10,6 +10,13 @@
 		    AND PASS = #{pass}
 	</select>
 	
+	<select id="memberInfo" parameterType="String" resultType="MemberVo">
+		SELECT *
+		  FROM USERS 
+		 WHERE USERID = #{userid}
+	</select>
+	
+	
 	<select id="memberList" parameterType="PageVo" resultType="MemberVo">
 		SELECT A.RN, A.*
   		  FROM (SELECT ROWNUM AS RN, USERS.*
@@ -21,4 +28,49 @@
 		SELECT *
 		  FROM USERS
 	</select>
+	
+	<!-- ID Search -->
+	<select id="searchById" parameterType='String' resultType="MemberVo">
+		SELECT *
+		  FROM USERS
+		 WHERE USERID LIKE #{keyword}
+	</select>
+	<!-- Nickname Search -->
+	<select id="searchByNickname" parameterType='String' resultType="MemberVo">
+		SELECT *
+		  FROM USERS
+		 WHERE ALIAS LIKE #{keyword}
+	</select>
+	<!-- Name Search -->
+	<select id="searchByName" parameterType='String' resultType="MemberVo">
+		SELECT *
+		  FROM USERS
+		 WHERE USERNM LIKE #{keyword}
+	</select>
+	
+	<insert id="memberRegist" parameterType="MemberVo">
+		INSERT INTO USERS(USERID, USERNM, PASS, REG_DT, ALIAS, ADDR1, ADDR2, ZIPCODE, FILENAME, REALFILENAME)
+		VALUES(#{userid}, #{usernm},#{pass}, SYSDATE,
+		       #{alias}, #{addr1}, #{addr2}, 
+		       #{zipcode}, #{filename}, #{realFilename})
+	</insert>
+	
+	<update id="memberUpdate" parameterType="MemberVo">
+		UPDATE USERS
+		   SET USERNM = #{usernm},
+		       PASS = #{pass},
+		       ALIAS = #{alias}, 
+		       ADDR1 = #{addr1},
+		       ADDR2 = #{addr2},
+		       ZIPCODE = #{zipcode},
+		       FILENAME = #{filename},
+		       REALFILENAME = #{realFilename}
+		 WHERE USERID = #{userid}
+	</update>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM USERS 
+		WHERE USERID = #{userid}
+	</delete>
+	
 </mapper>

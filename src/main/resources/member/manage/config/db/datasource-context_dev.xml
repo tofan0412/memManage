@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- Server 계정 정보가 담겨 있는 properties 파일을 등록. -->
+	<context:property-placeholder location="classpath:member/manage/config/db/db_dev.properties"/>
+
+	<!-- SqlSession 역할을 할 객체를 Bean으로 등록. 이 때 ID는 반드시 SqlSessionFactory여야 한다. -->
+	
+	<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- Mapper와 alias를 지정해 놓은 config 설정을 필드로 설정. -->
+		<property name="configLocation" 
+			value="classpath:member/manage/config/db/mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- SqlSessionFactory, Factory만으로는 객체로 역할을 다 할 수 없다. 
+		따라서 setter를 통해 객체로 사용할 수 있도록 한다. 
+	 -->
+	<bean id="SqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<!-- 생성자의 등록. Factory는 결국 생성자 역할을 한다. -->
+		<constructor-arg ref="SqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<!--  dataSource란 무엇인가? -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="url" value="${jdbc.url}" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.pass}" />
+		<property name="maxTotal" value="2" />
+		<property name="maxIdle" value="2" />
+	</bean>
+</beans>

@@ -31,5 +31,40 @@ public class MemberManageService implements MemberManageServiceI{
 	public List<MemberVo> memberListAll() {
 		return memberDao.memberListAll();
 	}
+	// ----------------------검색 세션----------------------
+	@Override
+	public List<MemberVo> searchById(String keyword) {
+		return memberDao.searchById(keyword);
+	}
 
+	@Override
+	public List<MemberVo> searchByAlias(String keyword) {
+		return memberDao.searchByAlias(keyword);
+	}
+
+	@Override
+	public List<MemberVo> searchByName(String keyword) {
+		return memberDao.searchByName(keyword);
+	}
+	// ----------------------검색 세션 끝 ----------------------
+
+	@Override
+	public int memberRegist(MemberVo memberVo) {
+		return memberDao.memberRegist(memberVo);
+	}
+
+	@Override
+	public MemberVo memberInfo(String userid) {
+		return memberDao.memberInfo(userid);
+	}
+
+	@Override
+	public int memberUpdate(MemberVo memberVo) {
+		return memberDao.memberUpdate(memberVo);
+	}
+
+	@Override
+	public int memberDelete(String userid) {
+		return memberDao.memberDelete(userid);
+	}
 }

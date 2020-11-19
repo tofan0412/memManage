@@ -6,21 +6,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	
-	<context:component-scan base-package="member.manage" use-default-filters="false">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+
+	<context:component-scan
+		base-package="member.manage" use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	
+
 	<bean id="MemberVo" class="member.manage.model.MemberVo"></bean>
-	
-	
-	<!-- 사용자가 URL을 입력할 때 이를 처리할 Listener가 필요하다. -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="ProfileImgView" class="member.manage.controller.ProfileImgView"></bean>
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="1"></property>
+	</bean>
+
+	<!-- 사용자가 URL을 입력할 때 이를 처리할 Listener가 필요하다. -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="2"></property>
 		<property name="prefix" value="/WEB-INF/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<mvc:annotation-driven/>
-	<mvc:default-servlet-handler/>
+
+	<mvc:annotation-driven />
+	<mvc:default-servlet-handler />
+
+	<!-- 파일 업로드 처리를 위한 multipartResolver 설정 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
 </beans>

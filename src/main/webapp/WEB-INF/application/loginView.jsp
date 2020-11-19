@@ -25,6 +25,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
 	rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 body.login-page {
 	background-image: url('${pageContext.request.contextPath}/resources/images/intro.png');
@@ -33,25 +34,20 @@ body.login-page {
 	background-repeat: no-repeat;
 }
 </style>
-<script type="${pageContext.request.contextPath }/resources/cookies/js.cookie-2.2.1.min.js"></script>
-<script>
-function getCookieValue(cookieName){
-	// 1. 브라우저에 저장되어 있는 쿠키 리스트를 변수로 저장. 
-	// " ; "를 구분자로 하는 배열이 cookies라는 변수에 저장.
-	var cookies = document.cookie.split("; ");	
+<script type="text/javascript">
 
-	for (var i = 0 ; i < cookies.length ; i++){
-		// 이 경우 쿠키의 이름과 쿠키의 값을 갖는 배열이 생성된다.
-		var cookie = cookies[i].split("=");	
-		// cookie 배열은 [쿠키의 이름 , 해당 쿠키의 값]와 같은 형태를 갖는다. 
+function getCookieValue(cookieName){
+	var cookies = document.cookie.split("; ");	
+	var result="";
+	for (var i = 0 ; i < cookies.length; i++){
+		var cookie = cookies[i].split("=");
+
 		if (cookie[0] == cookieName){
-			 return cookie[1];	// 리턴으로 하면 바로 끝난다.
-		}else{
-			return "";	// 해당 쿠키명이 존재하지 않는 경우에는 ""를 반환한다.
+			 result = cookie[1];
 		}
 	}
+	return result;
 }
-
 function setCookie(cookieName, cookieValue, expires){
 	var today = new Date();
 	// 현재 날짜에서 미래로 + expires만큼 한 날짜 구하기
@@ -67,34 +63,27 @@ function deleteCookie(cookieName){
 	setCookie(cookieName, "", -1);
 }
 
-
 $(function(){
-	// 가장 먼저 쿠키가 저장되어 있는지를 확인한다.
-	cookieValue = Cookies.get("REMEMBERME");
+	cookieValue = getCookieValue("REMEMBERME");
 	if (cookieValue == "Y"){
-		$("input[type=email]").val(Cookies.get("USERNM"));
+		$("#userid").val(getCookieValue("USERNM"));
+		
 		$("input:checkbox").prop("checked", true);
+
 		// attr("checked", "checked")
 		// "input[type=checkbox]" 와 같이 해도 된다.
 	}
 
-	// 쿠키 설정하기...
-	
-	$("button[type=submit]").on('click', function(){
-		// 클릭 여부를 콘솔창에 전시한다.
-		console.log("button_click");	
-		// 아이디 기억 체크박스가 체크되어 있으면
+
+	$("#submitBtn").on('click', function(){
 		if ( $("input:checkbox").is(":checked") == true) {
-			// is 대신 prop도 사용 가능하다.
-			Cookies.set("REMEMBERME", "Y");
-			Cookies.set("USERNM", $("input #userid").val());
+			setCookie("REMEMBERME", "Y", 30);
+			setCookie("USERNM",$("#userid").val(), 30);
 		}
-		// 아이디 기억 체크박스가 체크되어 있지 않으면
 		if ( $("input:checkbox").is(":checked") == false) {
-			Cookies.remove("REMEMBERME");
-			Cookies.remove("USERNM");
+			deleteCookie("REMEMBERME");
+			deleteCookie("USERNM");
 		}
-		$("form").submit();
 	})
 })
 </script>
@@ -130,7 +119,7 @@ $(function(){
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-4">
-							<button type="submit" class="btn btn-primary btn-block btn-flat">로그인</button>
+							<button id="submitBtn" type="submit" class="btn btn-primary btn-block btn-flat">로그인</button>
 						</div>
 						<!-- /.col -->
 					</div>
